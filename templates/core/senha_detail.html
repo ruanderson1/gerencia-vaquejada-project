@@ -1,0 +1,182 @@
+{% extends "core/base.html" %} {% block title %}Senha {{ senha.numero_senha }} -
+Vaquejada Brasil{% endblock %} {% block content %}
+<div class="row">
+  <div class="col-md-8">
+    <h1><i class="fas fa-key"></i> Senha {{ senha.numero_senha }}</h1>
+
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5 class="mb-0">Informações da Senha</h5>
+      </div>
+      <div class="card-body">
+        <p><strong>Vaquejada:</strong> {{ senha.categoria.vaquejada.nome }}</p>
+        <p><strong>Categoria:</strong> {{ senha.categoria.nome }}</p>
+        <p>
+          <strong>Valor:</strong> R$ {{ senha.categoria.valor|floatformat:2 }}
+        </p>
+        <p>
+          <strong>Status:</strong>
+          <span class="badge badge-{{ senha.status }}"
+            >{{ senha.get_status_display }}</span
+          >
+        </p>
+        <p>
+          <strong>Criada em:</strong> {{ senha.criado_em|date:"d/m/Y H:i" }}
+        </p>
+        {% if senha.pago_em %}
+        <p><strong>Paga em:</strong> {{ senha.pago_em|date:"d/m/Y H:i" }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if senha.status == 'pendente' %}
+    <div class="card mb-4">
+      <div class="card-header bg-info">
+        <h5 class="mb-0">
+          <i class="fas fa-info-circle"></i> Como Pagar via PIX?
+        </h5>
+      </div>
+      <div class="card-body">
+        <ol>
+          <li>Escaneie o QR Code abaixo com seu celular</li>
+          <li>
+            Realize o pagamento de R$ {{ senha.categoria.valor|floatformat:2 }}
+          </li>
+          <li>Tire uma foto ou screenshot do comprovante</li>
+          <li>Envie o comprovante no formulário abaixo</li>
+          <li>Aguarde a confirmação (você receberá pelo WhatsApp)</li>
+        </ol>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="col-md-4">
+    {% if senha.status == 'pendente' %}
+    <div class="card mb-4">
+      <div class="card-header bg-warning">
+        <h5 class="mb-0"><i class="fas fa-qrcode"></i> QR Code PIX</h5>
+      </div>
+      <div class="card-body text-center">
+        {% if senha.qr_code %}
+        <img
+          src="{{ senha.qr_code.url }}"
+          class="img-fluid mb-3"
+          style="max-width: 250px"
+        />
+        {% else %}
+        <div class="alert alert-warning">
+          QR Code não disponível. Contate o suporte.
+        </div>
+        {% endif %}
+        <p class="text-muted small">Escaneie para pagar via PIX</p>
+      </div>
+    </div>
+    {% endif %} {% if pagamento %}
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0"><i class="fas fa-money-check"></i> Pagamento</h5>
+      </div>
+      <div class="card-body">
+        <p><strong>Valor:</strong> R$ {{ pagamento.valor|floatformat:2 }}</p>
+        <p>
+          <strong>Status:</strong>
+          <span class="badge badge-{{ pagamento.status }}"
+            >{{ pagamento.get_status_display }}</span
+          >
+        </p>
+        <p><strong>Método:</strong> {{ pagamento.get_metodo_display }}</p>
+
+        {% if pagamento.status == 'pendente' and senha.status == 'pendente' %}
+        <div class="alert alert-warning">
+          <strong>Aguardando comprovante de pagamento</strong>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% if senha.status == 'pendente' and inscricao %}
+<div class="card mb-4">
+  <div class="card-header">
+    <h5 class="mb-0"><i class="fas fa-file-upload"></i> Enviar Comprovante</h5>
+  </div>
+  <div class="card-body">
+    <form
+      method="post"
+      action="{% url 'enviar_comprovante' senha.id %}"
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="comprovante" class="form-label"
+          >Selecione a foto/screenshot do comprovante PIX</label
+        >
+        <input
+          type="file"
+          class="form-control"
+          id="comprovante"
+          name="comprovante"
+          accept="image/*"
+          required
+        />
+        <small class="form-text text-muted"
+          >Formatos aceitos: JPG, PNG, GIF</small
+        >
+      </div>
+      <button type="submit" class="btn btn-primary">
+        <i class="fas fa-upload"></i> Enviar Comprovante
+      </button>
+    </form>
+  </div>
+</div>
+{% endif %} {% if inscricao %}
+<div class="card mb-4">
+  <div class="card-header">
+    <h5 class="mb-0"><i class="fas fa-user-check"></i> Dados da Inscrição</h5>
+  </div>
+  <div class="card-body">
+    <p><strong>Nome:</strong> {{ inscricao.nome_completo }}</p>
+    <p><strong>CPF:</strong> {{ inscricao.cpf }}</p>
+    <p><strong>Telefone:</strong> {{ inscricao.telefone }}</p>
+    <p><strong>Email:</strong> {{ inscricao.email }}</p>
+    <a href="{% url 'inscricao_edit' senha.id %}" class="btn btn-secondary">
+      <i class="fas fa-edit"></i> Editar Inscrição
+    </a>
+  </div>
+</div>
+{% else %}
+<div class="alert alert-warning">
+  <i class="fas fa-exclamation-triangle"></i> Você ainda não preencheu seus
+  dados de inscrição.
+  <a href="{% url 'inscricao_edit' senha.id %}" class="btn btn-sm btn-primary">
+    Preencher Agora
+  </a>
+</div>
+{% endif %} {% if pagamento.status == 'rejeitado' %}
+<div class="alert alert-danger">
+  <strong><i class="fas fa-times-circle"></i> Pagamento Rejeitado</strong><br />
+  Seu comprovante foi rejeitado. Por favor, envie novamente ou contate o suporte
+  via WhatsApp.
+</div>
+{% endif %}
+
+<div class="mt-4">
+  <a href="{% url 'minhas_senhas' %}" class="btn btn-secondary">
+    <i class="fas fa-arrow-left"></i> Voltar
+  </a>
+
+  {% if senha.status == 'pendente' and pagamento.status == 'pendente' %}
+  <a
+    href="https://wa.me/55{{ whatsapp_contact|cut:' ' }}?text=Olá! Gostaria de tirar dúvidas sobre minha senha {{ senha.numero_senha }}"
+    target="_blank"
+    class="btn btn-success"
+  >
+    <i class="fab fa-whatsapp"></i> Falar com Suporte
+  </a>
+  {% endif %}
+</div>
+
+{% endblock %}

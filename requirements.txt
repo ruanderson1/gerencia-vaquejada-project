@@ -1,0 +1,10 @@
+Django==4.2
+psycopg2-binary
+python-dotenv
+Pillow
+qrcode[pil]
+requests
+openpyxl
+djangorestframework
+django-cors-headers
+pix-qr-code

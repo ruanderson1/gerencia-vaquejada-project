@@ -1,0 +1,84 @@
+{% extends "core/base.html" %} {% block title %}Inscrições - {{ vaquejada.nome
+}}{% endblock %} {% block content %}
+<h1><i class="fas fa-users"></i> Inscrições - {{ vaquejada.nome }}</h1>
+
+<div class="row mb-4">
+  <div class="col-md-6">
+    <p class="text-muted">
+      {{ vaquejada.data_evento|date:"d/m/Y H:i" }} - {{ vaquejada.cidade }}, {{
+      vaquejada.estado }}
+    </p>
+  </div>
+  <div class="col-md-6 text-end">
+    <a
+      href="{% url 'exportar_senhas_csv' vaquejada.id %}"
+      class="btn btn-secondary"
+    >
+      <i class="fas fa-file-csv"></i> Exportar CSV
+    </a>
+    <a
+      href="{% url 'exportar_senhas_excel' vaquejada.id %}"
+      class="btn btn-success"
+    >
+      <i class="fas fa-file-excel"></i> Exportar Excel
+    </a>
+  </div>
+</div>
+
+{% if senhas %}
+<div class="table-responsive">
+  <table class="table table-striped table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>Número Senha</th>
+        <th>Categoria</th>
+        <th>Vaqueiro</th>
+        <th>CPF</th>
+        <th>Telefone</th>
+        <th>Status</th>
+        <th>Valor</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for senha in senhas %} {% with inscricao=senha.inscricao %}
+      <tr>
+        <td><strong>{{ senha.numero_senha }}</strong></td>
+        <td>{{ senha.categoria.nome }}</td>
+        <td>
+          {{ senha.vaqueiro.get_full_name|default:senha.vaqueiro.username }}
+        </td>
+        <td>{% if inscricao %}{{ inscricao.cpf }}{% else %}-{% endif %}</td>
+        <td>
+          {% if inscricao %}{{ inscricao.telefone }}{% else %}-{% endif %}
+        </td>
+        <td>
+          <span class="badge badge-{{ senha.status }}">
+            {{ senha.get_status_display }}
+          </span>
+        </td>
+        <td>R$ {{ senha.categoria.valor|floatformat:2 }}</td>
+        <td>
+          <a
+            href="{% url 'senha_detail' senha.id %}"
+            class="btn btn-sm btn-info"
+          >
+            <i class="fas fa-eye"></i> Ver
+          </a>
+        </td>
+      </tr>
+      {% endwith %} {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="alert alert-info">Nenhuma inscrição para esta vaquejada.</div>
+{% endif %}
+
+<div class="mt-4">
+  <a href="{% url 'admin_vaquejadas' %}" class="btn btn-secondary">
+    <i class="fas fa-arrow-left"></i> Voltar
+  </a>
+</div>
+
+{% endblock %}

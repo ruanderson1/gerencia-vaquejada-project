@@ -1,0 +1,109 @@
+{% extends "core/base.html" %}
+
+{% block title %}Painel Admin - Vaquejada Brasil{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4"><i class="fas fa-cog"></i> Painel de Administração</h1>
+
+    {% if not user.is_staff %}
+        <div class="alert alert-danger">
+            <i class="fas fa-lock"></i> Você não tem permissão para acessar esta área.
+        </div>
+    {% else %}
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="card border-0 shadow text-center">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">Total de Vaquejadas</h5>
+                        <h2 class="text-primary mb-0">{{ total_vaquejadas }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card border-0 shadow text-center">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">Total de Ingressos</h5>
+                        <h2 class="text-info mb-0">{{ total_ingressos }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card border-0 shadow text-center">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">Aguardando Confirmação</h5>
+                        <h2 class="text-warning mb-0">{{ ingressos_pendentes }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card border-0 shadow text-center">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">Receita Total</h5>
+                        <h2 class="text-success mb-0">R$ {{ total_vendido|floatformat:2 }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card border-0 shadow mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-horse"></i> Ações Rápidas</h5>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'admin_vaquejadas' %}" class="btn btn-primary btn-sm w-100 mb-2">
+                            <i class="fas fa-list"></i> Gerenciar Vaquejadas
+                        </a>
+                        <a href="{% url 'admin_vaquejada_new' %}" class="btn btn-success btn-sm w-100">
+                            <i class="fas fa-plus"></i> Criar Nova Vaquejada
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="fas fa-chart-bar"></i> Estatísticas</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">Total de ingressos registrados no sistema.</p>
+                        <p><strong>{{ total_ingressos }}</strong> ingressos criados</p>
+                        <p><strong>{{ ingressos_pendentes }}</strong> aguardando confirmação</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+                    <a href="{% url 'admin_vaquejada_new' %}" class="btn btn-success">
+                        <i class="fas fa-plus"></i> Nova Vaquejada
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-key"></i> Senhas e Inscrições</h5>
+                </div>
+                <div class="card-body">
+                    <p>Visualize senhas, inscrições e confirme pagamentos.</p>
+                    <a href="{% url 'admin_vaquejadas' %}" class="btn btn-primary">
+                        <i class="fas fa-eye"></i> Ver Inscrições
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <a href="/admin/" class="btn btn-dark">
+            <i class="fas fa-database"></i> Ir para Django Admin
+        </a>
+    </div>
+{% endif %}
+
+{% endblock %}

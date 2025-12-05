@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Vaquejada Brasil{% endblock %}</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #8b4513;
+        --secondary-color: #daa520;
+        --danger-color: #dc3545;
+        --success-color: #28a745;
+        --light-bg: #faf7f2;
+        --border-radius: 12px;
+      }
+
+      * {
+        transition: all 0.3s ease;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5f1eb 0%, #faf7f2 100%);
+        color: #333;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      main {
+        flex: 1;
+      }
+
+      .navbar {
+        background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        padding: 1rem 0;
+      }
+
+      .navbar-brand {
+        font-weight: bold;
+        font-size: 1.6rem;
+        color: #daa520 !important;
+        letter-spacing: 1px;
+      }
+
+      .nav-link {
+        color: #f0e68c !important;
+        font-weight: 500;
+        margin: 0 10px;
+        position: relative;
+        padding-bottom: 5px !important;
+      }
+
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: #daa520;
+        transition: width 0.3s ease;
+      }
+
+      .nav-link:hover::after,
+      .nav-link.active::after {
+        width: 100%;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+        border: none;
+        border-radius: var(--border-radius);
+        font-weight: 600;
+        padding: 10px 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-success {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        border: none;
+        border-radius: var(--border-radius);
+        font-weight: 600;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-secondary {
+        background: linear-gradient(135deg, #daa520 0%, #f0ad4e 100%);
+        border: none;
+        color: #333;
+        border-radius: var(--border-radius);
+        font-weight: 600;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        color: #333;
+      }
+
+      .card {
+        border: none;
+        border-radius: var(--border-radius);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      }
+
+      .card-header {
+        background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+        color: white;
+        border: none;
+        padding: 1.2rem;
+        font-weight: 600;
+      }
+
+      .card-body {
+        padding: 1.5rem;
+      }
+
+      .alert {
+        border: none;
+        border-radius: var(--border-radius);
+        margin-top: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      .alert-info {
+        background-color: #e7f3ff;
+        color: #004085;
+        border-left: 4px solid #004085;
+      }
+
+      .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border-left: 4px solid #155724;
+      }
+
+      footer {
+        background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+        color: white;
+        margin-top: 4rem;
+        padding: 3rem 0 1rem 0;
+        text-align: center;
+      }
+
+      .badge-paga {
+        background-color: var(--success-color);
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 600;
+      }
+
+      .badge-pendente {
+        background-color: #ffc107;
+        color: #333;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 600;
+      }
+
+      .badge-cancelada {
+        background-color: var(--danger-color);
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 600;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        color: #8b4513;
+        font-weight: 700;
+      }
+
+      a {
+        color: #8b4513;
+        transition: all 0.3s ease;
+      }
+
+      a:hover {
+        color: #daa520;
+        text-decoration: none;
+      }
+
+      .container {
+        padding: 2rem 0;
+      }
+
+      input, textarea, select {
+        border-radius: var(--border-radius) !important;
+        border: 1px solid #ddd !important;
+        padding: 0.8rem !important;
+      }
+
+      input:focus, textarea:focus, select:focus {
+        border-color: #8b4513 !important;
+        box-shadow: 0 0 0 0.2rem rgba(139, 69, 19, 0.25) !important;
+      }
+
+      .jumbotron {
+        border-radius: var(--border-radius);
+        background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%) !important;
+        padding: 3rem 2rem;
+      }
+    </style>
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+          {% load static %}
+          <img src="{% static 'images/logo.png' %}" alt="Logo" style="height: 40px; margin-right: 10px;" onerror="this.style.display='none'">
+          <span><i class="fas fa-horse"></i> Parque Kelezão</span>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'vaquejadas_list' %}"
+                >Vaquejadas</a
+              >
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'dashboard' %}">Meu Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'meus_ingressos' %}"
+                >Meus Ingressos</a
+              >
+            </li>
+            {% if user.is_staff %}
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="adminNav"
+                role="button"
+                data-bs-toggle="dropdown"
+              >
+                Admin
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="adminNav">
+                <li>
+                  <a class="dropdown-item" href="{% url 'admin_dashboard' %}"
+                    >Painel Admin</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'admin_vaquejadas' %}"
+                    >Vaquejadas</a
+                  >
+                </li>
+              </ul>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Sair</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'register' %}">Cadastro</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container my-4">
+      {% if messages %} {% for message in messages %}
+      <div
+        class="alert alert-{{ message.tags }} alert-dismissible fade show"
+        role="alert"
+      >
+        {{ message }}
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+        ></button>
+      </div>
+      {% endfor %} {% endif %} {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <h5>Vaquejada Brasil</h5>
+            <p>Plataforma de inscrição para vaquejadas</p>
+          </div>
+          <div class="col-md-4">
+            <h5>Links Rápidos</h5>
+            <ul class="list-unstyled">
+              <li><a href="{% url 'vaquejadas_list' %}">Vaquejadas</a></li>
+              <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h5>Contato</h5>
+            <p><i class="fas fa-whatsapp"></i> {{ whatsapp_contact }}</p>
+          </div>
+        </div>
+        <hr class="bg-light" />
+        <p class="text-center mb-0">
+          &copy; 2025 Vaquejada Brasil. Todos os direitos reservados.
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

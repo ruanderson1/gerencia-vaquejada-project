@@ -1,0 +1,188 @@
+{% extends "core/base.html" %} {% block title %}Meu Ingresso - Vaquejada
+Brasil{% endblock %} {% block content %}
+<div class="container py-4">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card border-0 shadow">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0"><i class="fas fa-ticket-alt"></i> Sua Senha</h4>
+        </div>
+        <div class="card-body">
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <p>
+                <strong>Vaquejada:</strong> {{ ingresso.categoria.vaquejada.nome
+                }}
+              </p>
+              <p><strong>Número da Senha:</strong> <span class="badge bg-success" style="font-size: 1.2rem;">{{ ingresso.numero_senha }}</span></p>
+              <p><strong>Categoria:</strong> {{ ingresso.categoria.nome }}</p>
+              <p>
+                <strong>Data:</strong> {{
+                ingresso.categoria.vaquejada.dia|date:"d/m/Y" }}
+              </p>
+            </div>
+            <div class="col-md-6">
+              <p>
+                <strong>Valor:</strong>
+                <span class="text-success fs-5"
+                  >R$ {{ ingresso.categoria.valor }}</span
+                >
+              </p>
+              <p>
+                <strong>Status:</strong>
+                {% if ingresso.status == 'open' %}
+                <span class="badge bg-warning">Aberto</span>
+                {% elif ingresso.status == 'paid' %}
+                <span class="badge bg-success">Pago</span>
+                {% elif ingresso.status == 'closed' %}
+                <span class="badge bg-danger">Fechado</span>
+                {% endif %}
+              </p>
+            </div>
+          </div>
+
+          {% if ingresso.status != 'paid' %}
+          <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i>
+            <strong>Próximo Passo:</strong> Preencha seus dados e faça o
+            pagamento via PIX.
+          </div>
+          {% endif %} {% if not ingresso.representacao %}
+          <a
+            href="{% url 'ingresso_edit' ingresso.id %}"
+            class="btn btn-primary btn-lg rounded-pill"
+          >
+            <i class="fas fa-edit"></i> Preencher Dados
+          </a>
+          {% else %}
+          <div class="mb-4">
+            <h5>Seus Dados</h5>
+            <table class="table">
+              <tr>
+                <td><strong>Representação:</strong></td>
+                <td>{{ ingresso.representacao }}</td>
+              </tr>
+              <tr>
+                <td><strong>Puxador:</strong></td>
+                <td>{{ ingresso.puxador }}</td>
+              </tr>
+              <tr>
+                <td><strong>Esteiro:</strong></td>
+                <td>{{ ingresso.esteiro }}</td>
+              </tr>
+              <tr>
+                <td><strong>Cavalo Puxador:</strong></td>
+                <td>{{ ingresso.cavalo_puxador }}</td>
+              </tr>
+              <tr>
+                <td><strong>Cavalo Esteiro:</strong></td>
+                <td>{{ ingresso.cavalo_esteiro }}</td>
+              </tr>
+            </table>
+            <a
+              href="{% url 'ingresso_edit' ingresso.id %}"
+              class="btn btn-outline-primary"
+            >
+              <i class="fas fa-edit"></i> Editar Dados
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card border-0 shadow">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0"><i class="fas fa-qrcode"></i> Pagamento PIX</h5>
+        </div>
+        <div class="card-body text-center">
+          {% if ingresso.qr_code %}
+          <img
+            src="{{ ingresso.qr_code.url }}"
+            class="img-fluid mb-3 border rounded p-2"
+            style="max-width: 200px; background: white"
+          />
+          <p class="small text-muted">
+            Aponte a câmera do seu celular para o QR code
+          </p>
+          <p class="small text-info">
+            <i class="fas fa-mobile-alt"></i> Abertura fácil no WhatsApp
+          </p>
+          {% else %}
+          <div class="alert alert-warning">
+            <i class="fas fa-exclamation-circle"></i> QR Code não disponível
+          </div>
+          {% endif %} {% if ingresso.status == 'open' %}
+          <hr />
+          <p class="text-muted mb-3">
+            <small>Após fazer o pagamento, envie o comprovante:</small>
+          </p>
+          <form
+            method="post"
+            enctype="multipart/form-data"
+            action="{% url 'enviar_comprovante_pix' ingresso.id %}"
+            id="formComprovante"
+          >
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="comprovante" class="form-label"
+                >Comprovante PIX (JPG, PNG ou PDF)</label
+              >
+              <input
+                type="file"
+                class="form-control"
+                id="comprovante"
+                name="comprovante_pix"
+                accept="image/jpeg,image/png,image/jpg,application/pdf"
+                required
+              />
+              <small class="text-muted d-block mt-1">Máximo 5MB</small>
+            </div>
+            <button type="submit" class="btn btn-success w-100 rounded-pill">
+              <i class="fas fa-upload"></i> Enviar Comprovante
+            </button>
+          </form>
+          {% elif ingresso.status == 'closed' %}
+          <div class="alert alert-info">
+            <i class="fas fa-hourglass-half"></i>
+            <strong>Aguardando Confirmação</strong>
+            <small class="d-block mt-2"
+              >Seu comprovante foi recebido. O organizador está
+              verificando.</small
+            >
+          </div>
+          {% if ingresso.comprovante_pix %}
+          <a
+            href="{{ ingresso.comprovante_pix.url }}"
+            class="btn btn-sm btn-outline-info w-100 rounded-pill"
+            target="_blank"
+          >
+            <i class="fas fa-eye"></i> Ver Comprovante
+          </a>
+          {% endif %} {% elif ingresso.status == 'paid' %}
+          <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i>
+            <strong>Pagamento Confirmado!</strong>
+            <small class="d-block mt-2"
+              >Seu ingresso foi validado. Aproveite o evento!</small
+            >
+          </div>
+          {% if ingresso.pago_em %}
+          <p class="small text-muted">
+            Confirmado em {{ ingresso.pago_em|date:"d/m/Y H:i" }}
+          </p>
+          {% endif %} {% endif %}
+        </div>
+      </div>
+
+      <a
+        href="{% url 'meus_ingressos' %}"
+        class="btn btn-outline-primary w-100 mt-3"
+      >
+        <i class="fas fa-arrow-left"></i> Voltar
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

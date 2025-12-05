@@ -1,0 +1,106 @@
+{% extends "core/base.html" %} {% block title %}Relatório Financeiro - {{
+vaquejada.nome }}{% endblock %} {% block content %}
+<div class="container py-4">
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h1><i class="fas fa-chart-bar"></i> Relatório Financeiro</h1>
+      <p class="text-muted">
+        {{ vaquejada.nome }} - {{ vaquejada.dia|date:"d/m/Y" }} às {{
+        vaquejada.hora|time:"H:i" }}
+      </p>
+    </div>
+    <div class="col-md-4 text-end">
+      <a href="{% url 'admin_vaquejadas' %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Voltar
+      </a>
+    </div>
+  </div>
+
+  {% if data %}
+  <div class="row mb-4">
+    {% for item in data %}
+    <div class="col-md-6 col-lg-3 mb-3">
+      <div class="card border-0 shadow">
+        <div class="card-body">
+          <h6 class="card-title text-primary">{{ item.categoria }}</h6>
+          <p class="card-text">
+            <strong class="text-success">{{ item.pago }}</strong> Pagos<br />
+            <strong class="text-warning">{{ item.pendente }}</strong>
+            Pendentes<br />
+            <strong>{{ item.quantidade }}</strong> Total
+          </p>
+          <hr />
+          <p class="mb-0">
+            <strong class="text-info"
+              >R$ {{ item.valor_total|floatformat:2 }}</strong
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="card border-0 shadow mb-4">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0"><i class="fas fa-dollar-sign"></i> Resumo Financeiro</h5>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <p class="text-muted">Receita Total</p>
+          <h3 class="text-success">R$ {{ total_geral|floatformat:2 }}</h3>
+        </div>
+        <div class="col-md-4 text-center">
+          <p class="text-muted">Total de Registros</p>
+          <h3 class="text-info">{% widthratio data 1 1 %}</h3>
+        </div>
+        <div class="col-md-4 text-center">
+          <p class="text-muted">Taxa de Confirmação</p>
+          <h3 class="text-warning">--</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover table-bordered">
+      <thead class="table-primary">
+        <tr>
+          <th>Categoria</th>
+          <th>Ingressos Vendidos</th>
+          <th>Pagos</th>
+          <th>Pendentes</th>
+          <th>Valor Unitário</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in data %}
+        <tr>
+          <td><strong>{{ item.categoria }}</strong></td>
+          <td>{{ item.quantidade }}</td>
+          <td><span class="badge bg-success">{{ item.pago }}</span></td>
+          <td><span class="badge bg-warning">{{ item.pendente }}</span></td>
+          <td>R$ {{ item.valor_total|floatformat:2 }}</td>
+          <td><strong>R$ {{ item.valor_total|floatformat:2 }}</strong></td>
+        </tr>
+        {% endfor %}
+        <tr class="table-active">
+          <td colspan="5"><strong>Total Geral:</strong></td>
+          <td>
+            <strong class="text-success"
+              >R$ {{ total_geral|floatformat:2 }}</strong
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="alert alert-info">
+    <i class="fas fa-info-circle"></i> Nenhum dado disponível para este evento.
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

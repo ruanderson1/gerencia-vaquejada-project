@@ -1,0 +1,222 @@
+{% extends "core/base.html" %} {% block title %}Editar Inscrição - Vaquejada
+Brasil{% endblock %} {% block content %}
+<h1><i class="fas fa-edit"></i> Preencher / Editar Dados de Inscrição</h1>
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Senha: {{ senha.numero_senha }}</h5>
+      </div>
+      <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <h5 class="mt-4 mb-3">Dados Pessoais</h5>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="nome_completo" class="form-label"
+                >Nome Completo *</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="nome_completo"
+                name="nome_completo"
+                value="{{ inscricao.nome_completo }}"
+                required
+              />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="cpf" class="form-label">CPF *</label>
+              <input
+                type="text"
+                class="form-control"
+                id="cpf"
+                name="cpf"
+                placeholder="000.000.000-00"
+                value="{{ inscricao.cpf }}"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="email" class="form-label">E-mail *</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                value="{{ inscricao.email }}"
+                required
+              />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="telefone" class="form-label">Telefone *</label>
+              <input
+                type="tel"
+                class="form-control"
+                id="telefone"
+                name="telefone"
+                value="{{ inscricao.telefone }}"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="data_nascimento" class="form-label"
+                >Data de Nascimento *</label
+              >
+              <input
+                type="date"
+                class="form-control"
+                id="data_nascimento"
+                name="data_nascimento"
+                value="{% if inscricao %}{{ inscricao.data_nascimento|date:'Y-m-d' }}{% endif %}"
+                required
+              />
+            </div>
+          </div>
+
+          <h5 class="mt-4 mb-3">Endereço</h5>
+
+          <div class="row">
+            <div class="col-md-8 mb-3">
+              <label for="endereco" class="form-label">Endereço *</label>
+              <input
+                type="text"
+                class="form-control"
+                id="endereco"
+                name="endereco"
+                value="{{ inscricao.endereco }}"
+                required
+              />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="numero" class="form-label">Número *</label>
+              <input
+                type="text"
+                class="form-control"
+                id="numero"
+                name="numero"
+                value="{{ inscricao.numero }}"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <label for="complemento" class="form-label">Complemento</label>
+              <input
+                type="text"
+                class="form-control"
+                id="complemento"
+                name="complemento"
+                value="{{ inscricao.complemento }}"
+              />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="bairro" class="form-label">Bairro *</label>
+              <input
+                type="text"
+                class="form-control"
+                id="bairro"
+                name="bairro"
+                value="{{ inscricao.bairro }}"
+                required
+              />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="cep" class="form-label">CEP *</label>
+              <input
+                type="text"
+                class="form-control"
+                id="cep"
+                name="cep"
+                placeholder="00000-000"
+                value="{{ inscricao.cep }}"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="cidade" class="form-label">Cidade *</label>
+              <input
+                type="text"
+                class="form-control"
+                id="cidade"
+                name="cidade"
+                value="{{ inscricao.cidade }}"
+                required
+              />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="estado" class="form-label">Estado *</label>
+              <input
+                type="text"
+                class="form-control"
+                id="estado"
+                name="estado"
+                placeholder="CE"
+                value="{{ inscricao.estado }}"
+                required
+                maxlength="2"
+              />
+            </div>
+          </div>
+
+          <h5 class="mt-4 mb-3">Documentos</h5>
+
+          <div class="mb-3">
+            <label for="documento" class="form-label"
+              >Documento (RG ou CNH) - Opcional</label
+            >
+            <input
+              type="file"
+              class="form-control"
+              id="documento"
+              name="documento"
+              accept="image/*,.pdf"
+            />
+            <small class="form-text text-muted"
+              >Formatos aceitos: JPG, PNG, PDF</small
+            >
+            {% if inscricao.documento %}
+            <div class="mt-2">
+              <a
+                href="{{ inscricao.documento.url }}"
+                target="_blank"
+                class="btn btn-sm btn-info"
+              >
+                <i class="fas fa-file"></i> Ver Documento Atual
+              </a>
+            </div>
+            {% endif %}
+          </div>
+
+          <div class="mt-4">
+            <button type="submit" class="btn btn-primary btn-lg">
+              <i class="fas fa-save"></i> Salvar Dados
+            </button>
+            <a
+              href="{% url 'senha_detail' senha.id %}"
+              class="btn btn-secondary btn-lg"
+            >
+              Cancelar
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

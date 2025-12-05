@@ -1,0 +1,177 @@
+{% extends "core/base.html" %}
+
+{% block title %}Home - Vaquejada Brasil{% endblock %}
+
+{% block content %}
+<div
+  class="jumbotron py-5 mb-4"
+  style="background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%); border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.15);"
+>
+  <div class="container text-center text-white">
+    {% load static %}
+    <div class="mb-4 animate__animated animate__fadeInDown">
+      <img src="{% static 'images/logo.png' %}" alt="Parque Kelezão - Grupo Bibi" style="max-width: 250px; height: auto; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); border-radius: 12px;" onerror="this.style.display='none'">
+    </div>
+    <h1 class="display-4" style="font-weight: 700; letter-spacing: 1px;">
+      Bem-vindo ao Parque Kelezão
+    </h1>
+    <p class="lead" style="font-size: 1.3rem; font-weight: 300; margin-bottom: 2rem;">Inscreva-se nas vaquejadas do Grupo Bibi em Açailândia-MA</p>
+    {% if not user.is_authenticated %}
+    <a href="{% url 'register' %}" class="btn btn-light btn-lg me-2" style="font-weight: 600; padding: 12px 30px;">
+      <i class="fas fa-user-plus"></i> Criar Conta
+    </a>
+    <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg" style="font-weight: 600; padding: 12px 30px;">
+      <i class="fas fa-sign-in-alt"></i> Fazer Login
+    </a>
+    {% else %}
+    <a href="{% url 'vaquejadas_list' %}" class="btn btn-light btn-lg" style="font-weight: 600; padding: 12px 30px;">
+      <i class="fas fa-list"></i> Ver Vaquejadas
+    </a>
+    {% endif %}
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-4 text-center mb-3">
+    <div class="card" style="border-radius: 12px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <div class="card-body" style="padding: 2rem 1.5rem;">
+        <div style="font-size: 2.5rem; color: #8b4513; margin-bottom: 1rem;">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h5 class="card-title" style="color: #8b4513; font-weight: 700;">Fácil de Usar</h5>
+        <p class="card-text" style="color: #666;">
+          Cadastro simples e rápido para participar de vaquejadas
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 text-center mb-3">
+    <div class="card" style="border-radius: 12px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <div class="card-body" style="padding: 2rem 1.5rem;">
+        <div style="font-size: 2.5rem; color: #8b4513; margin-bottom: 1rem;">
+          <i class="fas fa-qrcode"></i>
+        </div>
+        <h5 class="card-title" style="color: #8b4513; font-weight: 700;">QR Code PIX</h5>
+        <p class="card-text" style="color: #666;">
+          Pagamento seguro via PIX com QR code gerado automaticamente
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 text-center mb-3">
+    <div class="card" style="border-radius: 12px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+      <div class="card-body" style="padding: 2rem 1.5rem;">
+        <div style="font-size: 2.5rem; color: #8b4513; margin-bottom: 1rem;">
+          <i class="fas fa-mobile-alt"></i>
+        </div>
+        <h5 class="card-title" style="color: #8b4513; font-weight: 700;">Mobile Friendly</h5>
+        <p class="card-text" style="color: #666;">
+          Acesse de qualquer dispositivo, a qualquer momento
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2 class="mb-4" style="font-weight: 700; letter-spacing: 0.5px;">Próximas Vaquejadas</h2>
+
+{% if vaquejadas %}
+<div class="row">
+  {% for vaquejada in vaquejadas %}
+  <div class="col-md-6 col-lg-4 mb-4">
+    <div class="card h-100 border-0 shadow-sm">
+      {% if vaquejada.imagem %}
+      <img
+        src="{{ vaquejada.imagem.url }}"
+        class="card-img-top"
+        style="height: 180px; object-fit: cover"
+      />
+      {% else %}
+      <div
+        class="card-img-top"
+        style="
+          height: 180px;
+          background: linear-gradient(135deg, #8b4513 0%, #daa520 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <i class="fas fa-horse" style="font-size: 2.5rem; color: white"></i>
+      </div>
+      {% endif %}
+      <div class="card-body">
+        <h5 class="card-title text-primary">{{ vaquejada.nome }}</h5>
+        <p class="card-text small mb-2">
+          <i class="fas fa-calendar text-warning"></i>
+          <strong>{{ vaquejada.dia|date:"d/m/Y" }}</strong> às {{
+          vaquejada.hora|time:"H:i" }}
+        </p>
+        <p class="card-text small text-muted">
+          <i class="fas fa-map-marker-alt text-danger"></i> {{ vaquejada.local
+          }}
+        </p>
+        {% if vaquejada.descricao %}
+        <p class="card-text" style="font-size: 0.95rem">
+          {{ vaquejada.descricao|truncatewords:15 }}
+        </p>
+        {% endif %}
+      </div>
+      <div class="card-footer bg-white border-top-0">
+        <a
+          href="{% url 'vaquejada_detail' vaquejada.id %}"
+          class="btn btn-sm btn-primary w-100 rounded-pill"
+        >
+          <i class="fas fa-arrow-right"></i> Ver Detalhes
+        </a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="text-center mt-4">
+  <a href="{% url 'vaquejadas_list' %}" class="btn btn-secondary btn-lg">
+    <i class="fas fa-list"></i> Ver Todas as Vaquejadas
+  </a>
+</div>
+{% else %}
+<div class="alert alert-info">
+  <i class="fas fa-info-circle"></i> Nenhuma vaquejada disponível no momento.
+  Volte em breve!
+</div>
+{% endif %}
+
+<div
+  class="row mt-5 py-5"
+  style="background: linear-gradient(135deg, #f5f1eb 0%, #faf7f2 100%); border-radius: 12px; border: 1px solid #e0d5c8;"
+>
+  <div class="col-md-6">
+    <h4 style="color: #8b4513; font-weight: 700; margin-bottom: 1.5rem;"><i class="fas fa-list-check"></i> Como Funciona?</h4>
+    <ol style="line-height: 2; font-weight: 500;">
+      <li>Crie sua conta</li>
+      <li>Encontre uma vaquejada que goste</li>
+      <li>Escolha uma categoria</li>
+      <li>Gere sua senha</li>
+      <li>Escaneie o QR Code para pagar via PIX</li>
+      <li>Envie o comprovante</li>
+      <li>Preencha seus dados e participe!</li>
+    </ol>
+  </div>
+  <div class="col-md-6">
+    <h4 style="color: #8b4513; font-weight: 700; margin-bottom: 1.5rem;"><i class="fas fa-headset"></i> Precisa de Ajuda?</h4>
+    <p style="font-weight: 500; color: #666; margin-bottom: 1.5rem;">Entre em contato conosco pelo WhatsApp:</p>
+    <p>
+      <a
+        href="https://wa.me/55{{ whatsapp_contact|cut:' ' }}"
+        target="_blank"
+        class="btn btn-success btn-lg"
+        style="border-radius: 12px; font-weight: 600;"
+      >
+        <i class="fab fa-whatsapp"></i> Fale Conosco no WhatsApp
+      </a>
+    </p>
+  </div>
+</div>
+
+{% endblock %}

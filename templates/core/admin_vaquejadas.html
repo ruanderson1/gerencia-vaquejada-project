@@ -1,0 +1,78 @@
+{% extends "core/base.html" %} {% block title %}Gerenciar Vaquejadas - Admin{%
+endblock %} {% block content %}
+<div class="row mb-4">
+  <div class="col-md-8">
+    <h1><i class="fas fa-horse"></i> Gerenciar Vaquejadas</h1>
+  </div>
+  <div class="col-md-4 text-end">
+    <a href="{% url 'admin_vaquejada_new' %}" class="btn btn-success btn-lg">
+      <i class="fas fa-plus"></i> Nova Vaquejada
+    </a>
+  </div>
+</div>
+
+{% if vaquejadas %}
+<div class="table-responsive">
+  <table class="table table-striped table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>Nome</th>
+        <th>Data</th>
+        <th>Local</th>
+        <th>Status</th>
+        <th>Ingressos</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for vaquejada in vaquejadas %}
+      <tr>
+        <td><strong>{{ vaquejada.nome }}</strong></td>
+        <td>
+          {{ vaquejada.dia|date:"d/m/Y" }} às {{ vaquejada.hora|time:"H:i" }}
+        </td>
+        <td>{{ vaquejada.local }}</td>
+        <td>
+          {% if vaquejada.status == 'open' %}
+          <span class="badge bg-success">Aberta</span>
+          {% elif vaquejada.status == 'closed' %}
+          <span class="badge bg-danger">Fechada</span>
+          {% else %}
+          <span class="badge bg-secondary">{{ vaquejada.status|upper }}</span>
+          {% endif %}
+        </td>
+        <td>
+          <span class="badge bg-info">
+            {{ vaquejada.ingressos.count }} registros
+          </span>
+        </td>
+        <td>
+          <a
+            href="{% url 'admin_vaquejada_edit' vaquejada.id %}"
+            class="btn btn-sm btn-warning"
+          >
+            <i class="fas fa-edit"></i> Editar
+          </a>
+          <a
+            href="{% url 'admin_ingressos' vaquejada.id %}"
+            class="btn btn-sm btn-info"
+          >
+            <i class="fas fa-users"></i> Ingressos
+          </a>
+          <a
+            href="{% url 'admin_relatorio' vaquejada.id %}"
+            class="btn btn-sm btn-success"
+          >
+            <i class="fas fa-chart-bar"></i> Financeiro
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="alert alert-info">
+  <i class="fas fa-info-circle"></i> Nenhuma vaquejada cadastrada.
+</div>
+{% endif %} {% endblock %}

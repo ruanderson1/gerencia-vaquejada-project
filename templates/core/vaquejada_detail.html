@@ -1,0 +1,125 @@
+{% extends "core/base.html" %}
+
+{% block title %}{{ vaquejada.nome }} - Vaquejada Brasil{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row mb-4">
+  <div class="col-md-12">
+      {% if vaquejada.imagem %}
+      <img
+        src="{{ vaquejada.imagem.url }}"
+        class="img-fluid rounded mb-3"
+        style="max-height: 350px; width: 100%; object-fit: cover; box-shadow: 0 4px 12px rgba(0,0,0,0.12);"
+      />
+      {% else %}
+      <div
+        class="rounded mb-3"
+        style="
+          height: 350px;
+          background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        "
+      >
+        <i class="fas fa-horse" style="font-size: 5rem; color: white"></i>
+      </div>
+      {% endif %}
+  </div>
+</div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <h1 class="mb-3" style="color: #8b4513; font-weight: 700; letter-spacing: 0.5px;">{{ vaquejada.nome }}</h1>
+
+      <div class="mb-4">
+        <p class="fs-5 mb-2" style="color: #666;">
+          <i class="fas fa-calendar" style="color: #daa520; margin-right: 10px;"></i>
+          <strong style="color: #333;">{{ vaquejada.dia|date:"d \d\e F \d\e Y" }}</strong> às
+          <strong style="color: #333;">{{ vaquejada.hora|time:"H:i" }}</strong>
+        </p>
+        <p class="fs-5" style="color: #666;">
+          <i class="fas fa-map-marker-alt" style="color: #dc3545; margin-right: 10px;"></i>
+          <strong style="color: #333;">{{ vaquejada.local }}</strong>
+        </p>
+      </div>
+
+      <hr style="border-top: 2px solid #daa520; margin: 2rem 0;">
+
+      {% if vaquejada.descricao %}
+      <h4 style="color: #8b4513; font-weight: 700; margin-top: 2rem; margin-bottom: 1.5rem;">Sobre o Evento</h4>
+      <p class="lead" style="color: #666; line-height: 1.8; font-size: 1.05rem;">{{ vaquejada.descricao }}</p>
+      <hr style="border-top: 2px solid #daa520; margin: 2rem 0;">
+      {% endif %}
+    </div>
+
+    <div class="col-md-4">
+      <div class="card border-0" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+        <div class="card-header" style="background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%); color: white; border: none; border-radius: 12px 12px 0 0;">
+          <h5 class="mb-0" style="font-weight: 600;">
+            <i class="fas fa-ticket-alt"></i> Categorias Disponíveis
+          </h5>
+        </div>
+        <div class="card-body" style="padding: 1.5rem;">
+          {% for categoria in categorias %}
+          <div
+            class="mb-3 p-3"
+            style="
+              border: 2px solid #daa520;
+              border-radius: 8px;
+              background: linear-gradient(135deg, #fafafa 0%, #fefaf0 100%);
+              transition: all 0.3s ease;
+            "
+            onmouseover="this.style.boxShadow='0 4px 12px rgba(218, 165, 32, 0.2)'; this.style.transform='translateY(-2px)';"
+            onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';"
+          >
+            <h6 class="mb-2" style="color: #8b4513; font-weight: 700;">{{ categoria.nome }}</h6>
+            <p class="mb-2" style="color: #8b4513; font-weight: 600; font-size: 1.2rem;">
+              R$ {{ categoria.valor }}
+            </p>
+            <p class="small text-muted mb-3">
+              Senhas: <strong style="color: #28a745;">{{ categoria.ingressos_disponiveis }}</strong> de {{
+              categoria.n_ingressos }}
+            </p>
+            {% if user.is_authenticated %}
+              {% if categoria.ingressos_disponiveis > 0 %}
+          <a
+            href="{% url 'mapa_senhas' categoria.id %}"
+            class="btn btn-sm btn-success w-100 rounded-pill"
+          >
+            <i class="fas fa-ticket-alt"></i> Comprar Senha
+          </a>
+            {% else %}
+          <button class="btn btn-sm btn-secondary w-100 rounded-pill" disabled>
+            <i class="fas fa-ban"></i> Sem Senhas
+          </button>
+            {% endif %}
+          {% else %}
+          <a
+            href="{% url 'login' %}"
+            class="btn btn-sm btn-warning w-100 rounded-pill"
+          >
+            <i class="fas fa-sign-in-alt"></i> Faça Login
+          </a>
+          {% endif %}
+        </div>
+        {% empty %}
+        <div class="alert alert-info">
+          <i class="fas fa-info-circle"></i> Nenhuma categoria disponível
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-md-12">
+    <a href="{% url 'vaquejadas_list' %}" class="btn btn-outline-primary">
+      <i class="fas fa-arrow-left"></i> Voltar para Vaquejadas
+    </a>
+  </div>
+</div>
+{% endblock %}
