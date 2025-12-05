@@ -7,35 +7,41 @@
 ## 🎯 O Que Foi Desenvolvido
 
 ### 1. **Sistema de Mapa de Senhas** ⭐
+
 - Grid interativo com 50 senhas (1-50)
 - Código de cores: Verde (disponível) | Vermelho (ocupado)
 - Click na senha → Confirmação → Compra realizada
 - Responsivo para mobile, tablet e desktop
 
 ### 2. **Sistema de Pagamento PIX**
+
 - QR Code gerado automaticamente para cada ingresso
 - Usuário escaneia → Realiza pagamento
 - Upload de comprovante de pagamento
 - Admin aprova → Ingresso marcado como "Pago"
 
 ### 3. **Banco de Dados**
+
 - **Vaquejada**: Nome, Data, Hora, Local, Descrição, Imagem
 - **Categoria**: Nome, Valor, Quantidade de Senhas
 - **Ingresso**: Número da Senha, Usuário, Status, QR Code, Comprovante
 
 ### 4. **Interface Administrativo**
+
 - Painel customizado com emojis e cores
 - Preview de QR Code inline
 - Filtros e busca avançada
 - Status badges coloridas
 
 ### 5. **Autenticação**
+
 - Registro de usuários
 - Login/Logout
 - Dashboard pessoal
 - Histórico de ingressos
 
 ### 6. **Design & UX**
+
 - Bootstrap 5.1.3 + Custom CSS
 - Gradientes e animações suaves
 - FontAwesome 6.0.0 para ícones
@@ -92,16 +98,16 @@ vaquejada-brasil/
 
 ## 🚀 Tecnologias Utilizadas
 
-| Tecnologia | Versão | Uso |
-|-----------|--------|-----|
-| Django | 4.2 | Framework web backend |
-| Python | 3.12.4 | Linguagem |
-| Bootstrap | 5.1.3 | CSS framework |
-| FontAwesome | 6.0.0 | Ícones |
-| SQLite | - | Banco de dados (dev) |
-| PostgreSQL | - | Banco de dados (prod) |
-| qrcode | - | Geração de QR Code |
-| Pillow | - | Processamento de imagens |
+| Tecnologia  | Versão | Uso                      |
+| ----------- | ------ | ------------------------ |
+| Django      | 4.2    | Framework web backend    |
+| Python      | 3.12.4 | Linguagem                |
+| Bootstrap   | 5.1.3  | CSS framework            |
+| FontAwesome | 6.0.0  | Ícones                   |
+| SQLite      | -      | Banco de dados (dev)     |
+| PostgreSQL  | -      | Banco de dados (prod)    |
+| qrcode      | -      | Geração de QR Code       |
+| Pillow      | -      | Processamento de imagens |
 
 ---
 
@@ -136,18 +142,21 @@ Usuário Teste:
 ## 📊 Funcionalidades por Página
 
 ### Home (`/`)
+
 - Logo do "Parque Kelezão"
 - Cards com features
 - Lista de próximas vaquejadas
 - Botões: Criar Conta / Fazer Login
 
 ### Vaquejadas (`/vaquejadas/`)
+
 - Lista de todas as vaquejadas
 - Busca por local
 - Cards com imagem, data, hora, local
 - Botão "Ver e Comprar"
 
 ### Detalhes Vaquejada (`/vaquejada/<id>/`)
+
 - Imagem do evento
 - Informações completas
 - Categorias disponíveis
@@ -155,24 +164,28 @@ Usuário Teste:
 - Botão "Comprar Senha"
 
 ### Mapa de Senhas (`/categoria/<id>/mapa-senhas/`)
+
 - Grid 6x8 com 50 senhas
 - Click na senha disponível
 - Confirmação de compra
 - Redirecionamento para pagamento
 
 ### Pagamento (`/gerar-ingresso/<categoria_id>/<numero>/`)
+
 - Exibição de QR Code
 - Botão escanear/copiar
 - Upload de comprovante
 - Formulário com dados do vaqueiro
 
 ### Dashboard (`/dashboard/`)
+
 - Estatísticas: Total, Pagos, Pendentes
 - Tabela com minhas senhas
 - Status de cada ingresso
 - Botão "Comprar nova senha"
 
 ### Admin (`/admin/`)
+
 - Gerenciar Vaquejadas
 - Gerenciar Categorias
 - Gerenciar Ingressos
@@ -184,6 +197,7 @@ Usuário Teste:
 ## 🎨 Design Visual
 
 ### Paleta de Cores
+
 - **Primary**: #8B4513 (Brown - Couro)
 - **Secondary**: #DAA520 (Gold - Ouro)
 - **Success**: #28A745 (Verde)
@@ -192,11 +206,13 @@ Usuário Teste:
 - **Light**: #FAF7F2 (Bege claro)
 
 ### Tipografia
+
 - **Font Family**: Segoe UI, Tahoma, Geneva, Verdana
 - **Heading Weight**: 700 (Bold)
 - **Body Weight**: 400 (Regular)
 
 ### Componentes
+
 - Cards com shadow e border-radius 12px
 - Botões com gradient e hover effect
 - Badges arredondadas (border-radius 20px)
@@ -227,12 +243,14 @@ Usuário Teste:
 ## 🧪 Testes
 
 O projeto inclui:
+
 - Validação de forms
 - Testes de model (via shell)
 - Testes de QR Code
 - Verificação de senhas disponíveis
 
 Para rodar testes:
+
 ```bash
 python manage.py test core
 ```
@@ -242,6 +260,7 @@ python manage.py test core
 ## 📦 Como Fazer Deploy
 
 ### Opção 1: Heroku
+
 ```bash
 # Criar arquivo Procfile
 # Configurar variáveis de ambiente
@@ -249,6 +268,7 @@ git push heroku main
 ```
 
 ### Opção 2: VPS/Servidor Próprio
+
 ```bash
 # 1. Clonar repositório
 # 2. Criar ambiente virtual
@@ -275,6 +295,7 @@ git push heroku main
 ## 🎓 Aprendizados
 
 Durante o desenvolvimento foram aplicados:
+
 - ✅ Django ORM e relacionamentos
 - ✅ Class-Based Views e Function-Based Views
 - ✅ Django Admin customização
