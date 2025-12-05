@@ -14,7 +14,12 @@ Brasil{% endblock %} {% block content %}
                 <strong>Vaquejada:</strong> {{ ingresso.categoria.vaquejada.nome
                 }}
               </p>
-              <p><strong>Número da Senha:</strong> <span class="badge bg-success" style="font-size: 1.2rem;">{{ ingresso.numero_senha }}</span></p>
+              <p>
+                <strong>Número da Senha:</strong>
+                <span class="badge bg-success" style="font-size: 1.2rem"
+                  >{{ ingresso.numero_senha }}</span
+                >
+              </p>
               <p><strong>Categoria:</strong> {{ ingresso.categoria.nome }}</p>
               <p>
                 <strong>Data:</strong> {{

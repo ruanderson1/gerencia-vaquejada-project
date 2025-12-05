@@ -7,22 +7,26 @@ O sistema agora funciona igual ao exemplo que você mostrou, com **MAPA VISUAL D
 ### Mudanças Principais:
 
 1. **Modelo Atualizado:**
+
    - Campo `numero_senha` adicionado ao Ingresso
    - Cada senha tem número único por categoria (1 a 550, por exemplo)
    - Constraint de unicidade: não permite senhas duplicadas na mesma categoria
 
 2. **Nova View `mapa_senhas`:**
+
    - Exibe grid visual com todas as senhas da categoria
    - Senhas **verdes** = disponíveis
    - Senhas **vermelhas** = ocupadas
    - Clique na senha para comprar
 
 3. **View `gerar_ingresso` Atualizada:**
+
    - Agora recebe `numero_senha` como parâmetro
    - Valida se a senha está disponível
    - Cria ingresso com número específico escolhido
 
 4. **Templates Atualizados:**
+
    - `vaquejada_detail.html`: Botão "Comprar Senha" redireciona para mapa
    - `mapa_senhas.html`: Grid interativo de senhas (NOVO)
    - `ingresso_detail.html`: Mostra número da senha
@@ -39,15 +43,18 @@ O sistema agora funciona igual ao exemplo que você mostrou, com **MAPA VISUAL D
 ## 🎮 COMO USAR
 
 ### 1. Login:
+
 - Admin: `admin` / `admin123`
 - Teste: `teste` / `teste123`
 
 ### 2. Criar Vaquejada (Admin):
+
 - Acesse: http://localhost:8000/admin/dashboard/
 - Crie nova vaquejada
 - Adicione categorias com preços e quantidade de senhas
 
 ### 3. Comprar Senha (Usuário):
+
 1. Entre em "Vaquejadas"
 2. Clique em uma vaquejada
 3. Clique em "Comprar Senha" na categoria desejada
@@ -108,17 +115,20 @@ O sistema agora funciona igual ao exemplo que você mostrou, com **MAPA VISUAL D
 ## 🔧 ARQUIVOS MODIFICADOS
 
 ### Modelos:
+
 - `core/models.py`:
   - Campo `numero_senha` adicionado
   - Método `senhas_disponiveis()` criado
   - Constraint `unique_together`
 
 ### Views:
+
 - `core/views.py`:
   - `mapa_senhas()` - NOVA
   - `gerar_ingresso()` - Atualizada para receber numero_senha
 
 ### Templates:
+
 - `templates/core/mapa_senhas.html` - NOVO
 - `templates/core/vaquejada_detail.html` - Atualizado
 - `templates/core/ingresso_detail.html` - Atualizado
@@ -126,31 +136,34 @@ O sistema agora funciona igual ao exemplo que você mostrou, com **MAPA VISUAL D
 - `templates/core/dashboard.html` - Atualizado
 
 ### URLs:
+
 - `core/urls.py`:
   - `path('categoria/<uuid:categoria_id>/mapa-senhas/')` - NOVA
   - `path('gerar-ingresso/<uuid:categoria_id>/<int:numero_senha>/')` - Atualizada
 
 ### Admin:
+
 - `core/admin.py`:
   - Campo `numero_senha` no list_display
   - Busca por numero_senha
   - Readonly fields ajustados
 
 ### Migrations:
+
 - `core/migrations/0003_ingresso_numero_senha_alter_ingresso_unique_together.py`
 
 ---
 
 ## 🎯 DIFERENÇAS DO SISTEMA ANTERIOR
 
-| Antes | Agora |
-|-------|-------|
-| Clica em "Comprar Ingresso" | Clica em "Comprar Senha" |
+| Antes                           | Agora                         |
+| ------------------------------- | ----------------------------- |
+| Clica em "Comprar Ingresso"     | Clica em "Comprar Senha"      |
 | Ingresso criado automaticamente | Escolhe número no mapa visual |
-| Sem controle de numeração | Senhas numeradas 1 a N |
-| - | Grid visual colorido |
-| - | Confirmação ao clicar |
-| "Meus Ingressos" | "Minhas Senhas" |
+| Sem controle de numeração       | Senhas numeradas 1 a N        |
+| -                               | Grid visual colorido          |
+| -                               | Confirmação ao clicar         |
+| "Meus Ingressos"                | "Minhas Senhas"               |
 
 ---
 
@@ -159,14 +172,17 @@ O sistema agora funciona igual ao exemplo que você mostrou, com **MAPA VISUAL D
 Se quiser melhorar ainda mais:
 
 1. **Filtro por Dia:**
+
    - Dropdown para escolher sexta/sábado/domingo
    - Atualiza mapa via AJAX
 
 2. **Legenda Melhorada:**
+
    - Mostrar quem comprou (se admin)
    - Histórico de vendas por senha
 
 3. **Múltiplas Senhas:**
+
    - Permitir selecionar várias senhas de uma vez
    - Desconto por quantidade
 
@@ -192,11 +208,13 @@ Se quiser melhorar ainda mais:
 ## 📞 CREDENCIAIS DE ACESSO
 
 **Admin:**
+
 - Usuário: `admin`
 - Senha: `admin123`
 - URL: http://localhost:8000/admin/dashboard/
 
 **Usuário Teste:**
+
 - Usuário: `teste`
 - Senha: `teste123`
 - URL: http://localhost:8000/login/

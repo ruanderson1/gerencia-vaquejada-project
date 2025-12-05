@@ -1,57 +1,87 @@
-{% extends "core/base.html" %}
-
-{% block title %}Dashboard - Vaquejada Brasil{% endblock %}
-
-{% block content %}
+{% extends "core/base.html" %} {% block title %}Dashboard - Vaquejada Brasil{%
+endblock %} {% block content %}
 <div class="container py-5">
   <div class="mb-5">
-    <h1 style="color: #8b4513; font-weight: 700; letter-spacing: 0.5px;"><i class="fas fa-user-circle"></i> Bem-vindo, {{ user.username }}!</h1>
-    <p class="text-muted" style="font-size: 1.1rem;">
+    <h1 style="color: #8b4513; font-weight: 700; letter-spacing: 0.5px">
+      <i class="fas fa-user-circle"></i> Bem-vindo, {{ user.username }}!
+    </h1>
+    <p class="text-muted" style="font-size: 1.1rem">
       Aqui você pode gerenciar suas senhas e participações
     </p>
   </div>
 
   <div class="row mb-5">
     <div class="col-md-3 mb-3">
-      <div class="card text-center border-0" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-        <div class="card-body" style="padding: 2rem 1.5rem;">
-          <div style="font-size: 2.5rem; color: #8b4513; margin-bottom: 1rem;">
+      <div
+        class="card text-center border-0"
+        style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08)"
+      >
+        <div class="card-body" style="padding: 2rem 1.5rem">
+          <div style="font-size: 2.5rem; color: #8b4513; margin-bottom: 1rem">
             <i class="fas fa-ticket-alt"></i>
           </div>
-          <h5 class="card-title" style="color: #666; font-weight: 500; font-size: 0.95rem;">Total de Senhas</h5>
-          <h2 style="color: #8b4513; font-weight: 700;">{{ total_ingressos }}</h2>
+          <h5
+            class="card-title"
+            style="color: #666; font-weight: 500; font-size: 0.95rem"
+          >
+            Total de Senhas
+          </h5>
+          <h2 style="color: #8b4513; font-weight: 700">
+            {{ total_ingressos }}
+          </h2>
         </div>
       </div>
     </div>
     <div class="col-md-3 mb-3">
-      <div class="card text-center border-0" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-        <div class="card-body" style="padding: 2rem 1.5rem;">
-          <div style="font-size: 2.5rem; color: #28a745; margin-bottom: 1rem;">
+      <div
+        class="card text-center border-0"
+        style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08)"
+      >
+        <div class="card-body" style="padding: 2rem 1.5rem">
+          <div style="font-size: 2.5rem; color: #28a745; margin-bottom: 1rem">
             <i class="fas fa-check-circle"></i>
           </div>
-          <h5 class="card-title" style="color: #666; font-weight: 500; font-size: 0.95rem;">Pagos</h5>
-          <h2 style="color: #28a745; font-weight: 700;">{{ total_pagos }}</h2>
+          <h5
+            class="card-title"
+            style="color: #666; font-weight: 500; font-size: 0.95rem"
+          >
+            Pagos
+          </h5>
+          <h2 style="color: #28a745; font-weight: 700">{{ total_pagos }}</h2>
         </div>
       </div>
     </div>
     <div class="col-md-3 mb-3">
-      <div class="card text-center border-0" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-        <div class="card-body" style="padding: 2rem 1.5rem;">
-          <div style="font-size: 2.5rem; color: #ffc107; margin-bottom: 1rem;">
+      <div
+        class="card text-center border-0"
+        style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08)"
+      >
+        <div class="card-body" style="padding: 2rem 1.5rem">
+          <div style="font-size: 2.5rem; color: #ffc107; margin-bottom: 1rem">
             <i class="fas fa-clock"></i>
           </div>
-          <h5 class="card-title" style="color: #666; font-weight: 500; font-size: 0.95rem;">Pendentes</h5>
-          <h2 style="color: #ffc107; font-weight: 700;">{{ total_pendentes }}</h2>
+          <h5
+            class="card-title"
+            style="color: #666; font-weight: 500; font-size: 0.95rem"
+          >
+            Pendentes
+          </h5>
+          <h2 style="color: #ffc107; font-weight: 700">
+            {{ total_pendentes }}
+          </h2>
         </div>
       </div>
     </div>
     <div class="col-md-3 mb-3">
-      <div class="card border-0" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-        <div class="card-body" style="padding: 1.5rem;">
+      <div
+        class="card border-0"
+        style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08)"
+      >
+        <div class="card-body" style="padding: 1.5rem">
           <a
             href="{% url 'vaquejadas_list' %}"
             class="btn btn-primary btn-lg w-100"
-            style="border-radius: 8px; font-weight: 600; padding: 15px 10px;"
+            style="border-radius: 8px; font-weight: 600; padding: 15px 10px"
           >
             <i class="fas fa-plus-circle"></i> Nova Senha
           </a>
@@ -62,47 +92,109 @@
 
   <div class="row">
     <div class="col-md-12">
-      <div class="card border-0" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-        <div class="card-header" style="background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%); color: white; border-radius: 12px 12px 0 0; border: none;">
-          <h5 class="mb-0" style="font-weight: 600;"><i class="fas fa-list-alt"></i> Minhas Senhas</h5>
+      <div
+        class="card border-0"
+        style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08)"
+      >
+        <div
+          class="card-header"
+          style="
+            background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+            color: white;
+            border-radius: 12px 12px 0 0;
+            border: none;
+          "
+        >
+          <h5 class="mb-0" style="font-weight: 600">
+            <i class="fas fa-list-alt"></i> Minhas Senhas
+          </h5>
         </div>
-        <div class="card-body" style="padding: 2rem;">
+        <div class="card-body" style="padding: 2rem">
           {% if ingressos %}
           <div class="table-responsive">
-            <table class="table table-hover" style="margin-bottom: 0;">
-              <thead style="background-color: #f8f9fa;">
-                <tr style="border-bottom: 2px solid #ddd;">
-                  <th style="color: #8b4513; font-weight: 600; padding: 1rem;">Vaquejada</th>
-                  <th style="color: #8b4513; font-weight: 600; padding: 1rem;">Senha</th>
-                  <th style="color: #8b4513; font-weight: 600; padding: 1rem;">Categoria</th>
-                  <th style="color: #8b4513; font-weight: 600; padding: 1rem;">Data</th>
-                  <th style="color: #8b4513; font-weight: 600; padding: 1rem;">Status</th>
-                  <th style="color: #8b4513; font-weight: 600; padding: 1rem;">Ação</th>
+            <table class="table table-hover" style="margin-bottom: 0">
+              <thead style="background-color: #f8f9fa">
+                <tr style="border-bottom: 2px solid #ddd">
+                  <th style="color: #8b4513; font-weight: 600; padding: 1rem">
+                    Vaquejada
+                  </th>
+                  <th style="color: #8b4513; font-weight: 600; padding: 1rem">
+                    Senha
+                  </th>
+                  <th style="color: #8b4513; font-weight: 600; padding: 1rem">
+                    Categoria
+                  </th>
+                  <th style="color: #8b4513; font-weight: 600; padding: 1rem">
+                    Data
+                  </th>
+                  <th style="color: #8b4513; font-weight: 600; padding: 1rem">
+                    Status
+                  </th>
+                  <th style="color: #8b4513; font-weight: 600; padding: 1rem">
+                    Ação
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {% for ingresso in ingressos %}
-                <tr style="border-bottom: 1px solid #eee; transition: all 0.3s ease;">
-                  <td style="padding: 1rem;">
-                    <strong style="color: #333;">{{ ingresso.categoria.vaquejada.nome }}</strong>
+                <tr
+                  style="
+                    border-bottom: 1px solid #eee;
+                    transition: all 0.3s ease;
+                  "
+                >
+                  <td style="padding: 1rem">
+                    <strong style="color: #333"
+                      >{{ ingresso.categoria.vaquejada.nome }}</strong
+                    >
                   </td>
-                  <td style="padding: 1rem;"><span class="badge bg-success" style="font-size: 1rem; padding: 6px 12px; border-radius: 20px;">{{ ingresso.numero_senha }}</span></td>
-                  <td style="padding: 1rem; color: #666;">{{ ingresso.categoria.nome }}</td>
-                  <td style="padding: 1rem; color: #666;">{{ ingresso.categoria.vaquejada.dia|date:"d/m/Y" }}</td>
-                  <td style="padding: 1rem;">
+                  <td style="padding: 1rem">
+                    <span
+                      class="badge bg-success"
+                      style="
+                        font-size: 1rem;
+                        padding: 6px 12px;
+                        border-radius: 20px;
+                      "
+                      >{{ ingresso.numero_senha }}</span
+                    >
+                  </td>
+                  <td style="padding: 1rem; color: #666">
+                    {{ ingresso.categoria.nome }}
+                  </td>
+                  <td style="padding: 1rem; color: #666">
+                    {{ ingresso.categoria.vaquejada.dia|date:"d/m/Y" }}
+                  </td>
+                  <td style="padding: 1rem">
                     {% if ingresso.status == 'paid' %}
-                    <span class="badge bg-success" style="padding: 6px 12px; border-radius: 20px;">✓ Pago</span>
+                    <span
+                      class="badge bg-success"
+                      style="padding: 6px 12px; border-radius: 20px"
+                      >✓ Pago</span
+                    >
                     {% elif ingresso.status == 'open' %}
-                    <span class="badge bg-warning text-dark" style="padding: 6px 12px; border-radius: 20px;">⏳ Pendente</span>
+                    <span
+                      class="badge bg-warning text-dark"
+                      style="padding: 6px 12px; border-radius: 20px"
+                      >⏳ Pendente</span
+                    >
                     {% elif ingresso.status == 'closed' %}
-                    <span class="badge bg-danger" style="padding: 6px 12px; border-radius: 20px;">✗ Fechado</span>
+                    <span
+                      class="badge bg-danger"
+                      style="padding: 6px 12px; border-radius: 20px"
+                      >✗ Fechado</span
+                    >
                     {% endif %}
                   </td>
-                  <td style="padding: 1rem;">
+                  <td style="padding: 1rem">
                     <a
                       href="{% url 'ingresso_detail' ingresso.id %}"
                       class="btn btn-sm btn-primary"
-                      style="border-radius: 8px; font-weight: 600; padding: 6px 12px;"
+                      style="
+                        border-radius: 8px;
+                        font-weight: 600;
+                        padding: 6px 12px;
+                      "
                     >
                       <i class="fas fa-arrow-right"></i> Ver
                     </a>
@@ -114,14 +206,17 @@
           </div>
           {% else %}
           <p class="text-muted text-center py-4">
-            <i class="fas fa-inbox" style="font-size: 2rem; color: #ccc;"></i><br />
-            <span style="font-size: 1.1rem; color: #999;">Você não possui senhas ainda</span>
+            <i class="fas fa-inbox" style="font-size: 2rem; color: #ccc"></i
+            ><br />
+            <span style="font-size: 1.1rem; color: #999"
+              >Você não possui senhas ainda</span
+            >
           </p>
           <div class="text-center">
             <a
               href="{% url 'vaquejadas_list' %}"
               class="btn btn-primary"
-              style="border-radius: 8px; font-weight: 600; padding: 10px 20px;"
+              style="border-radius: 8px; font-weight: 600; padding: 10px 20px"
             >
               <i class="fas fa-plus"></i> Comprar Senha
             </a>

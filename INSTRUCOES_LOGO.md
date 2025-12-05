@@ -7,6 +7,7 @@ O arquivo `Parque kelezão.pdf` é um PDF e precisa ser convertido para imagem (
 ## 🔧 COMO CONVERTER:
 
 ### Opção 1: Online (Mais Fácil)
+
 1. Acesse: https://www.ilovepdf.com/pt/pdf_para_jpg
 2. Faça upload do arquivo: `c:\Users\Ruanderson\Downloads\Parque kelezão.pdf`
 3. Baixe a imagem convertida
@@ -14,6 +15,7 @@ O arquivo `Parque kelezão.pdf` é um PDF e precisa ser convertido para imagem (
 5. Copie para: `c:\Users\Ruanderson\OneDrive\Documentos\Estagios\CortechX\vaquejada\static\images\logo.png`
 
 ### Opção 2: Printscreen
+
 1. Abra o PDF
 2. Dê zoom no logo
 3. Pressione `Print Screen`
@@ -23,6 +25,7 @@ O arquivo `Parque kelezão.pdf` é um PDF e precisa ser convertido para imagem (
 7. Salve como PNG: `c:\Users\Ruanderson\OneDrive\Documentos\Estagios\CortechX\vaquejada\static\images\logo.png`
 
 ### Opção 3: Photoshop/GIMP
+
 1. Abra o PDF no Photoshop ou GIMP
 2. Exporte como PNG
 3. Salve em: `c:\Users\Ruanderson\OneDrive\Documentos\Estagios\CortechX\vaquejada\static\images\logo.png`
@@ -65,6 +68,7 @@ vaquejada/
 ## 🚨 IMPORTANTE
 
 O logo aparecerá em **TODAS as páginas** do sistema:
+
 - Home
 - Lista de vaquejadas
 - Detalhes

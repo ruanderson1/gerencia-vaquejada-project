@@ -61,7 +61,7 @@
       }
 
       .nav-link::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: 0;
         left: 0;
@@ -193,7 +193,12 @@
         font-weight: 600;
       }
 
-      h1, h2, h3, h4, h5, h6 {
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
         color: #8b4513;
         font-weight: 700;
       }
@@ -212,20 +217,28 @@
         padding: 2rem 0;
       }
 
-      input, textarea, select {
+      input,
+      textarea,
+      select {
         border-radius: var(--border-radius) !important;
         border: 1px solid #ddd !important;
         padding: 0.8rem !important;
       }
 
-      input:focus, textarea:focus, select:focus {
+      input:focus,
+      textarea:focus,
+      select:focus {
         border-color: #8b4513 !important;
         box-shadow: 0 0 0 0.2rem rgba(139, 69, 19, 0.25) !important;
       }
 
       .jumbotron {
         border-radius: var(--border-radius);
-        background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%) !important;
+        background: linear-gradient(
+          135deg,
+          #8b4513 0%,
+          #a0522d 100%
+        ) !important;
         padding: 3rem 2rem;
       }
     </style>
@@ -234,9 +247,17 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+        <a
+          class="navbar-brand d-flex align-items-center"
+          href="{% url 'home' %}"
+        >
           {% load static %}
-          <img src="{% static 'images/logo.png' %}" alt="Logo" style="height: 40px; margin-right: 10px;" onerror="this.style.display='none'">
+          <img
+            src="{% static 'images/logo.png' %}"
+            alt="Logo"
+            style="height: 40px; margin-right: 10px"
+            onerror="this.style.display='none'"
+          />
           <span><i class="fas fa-horse"></i> Parque Kelezão</span>
         </a>
         <button

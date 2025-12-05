@@ -1,149 +1,220 @@
-{% extends 'core/base.html' %}
-{% load static %}
-
-{% block title %}Mapa de Senhas - {{ categoria.nome }}{% endblock %}
-
-{% block content %}
+{% extends 'core/base.html' %} {% load static %} {% block title %}Mapa de Senhas
+- {{ categoria.nome }}{% endblock %} {% block content %}
 <div class="container my-5">
-    <div class="row">
-        <div class="col-12">
-            <!-- Informações da Vaquejada e Categoria -->
-            <div class="card mb-4" style="background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%); color: white;">
-                <div class="card-body">
-                    <h2 class="mb-3">
-                        <i class="fas fa-ticket-alt"></i> {{ vaquejada.nome }}
-                    </h2>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h4 class="text-warning mb-3">{{ categoria.nome }}</h4>
-                            <p class="mb-2"><i class="fas fa-calendar"></i> {{ vaquejada.dia|date:"d/m/Y" }} às {{ vaquejada.hora|time:"H:i" }}</p>
-                            <p class="mb-2"><i class="fas fa-map-marker-alt"></i> {{ vaquejada.local }}</p>
-                        </div>
-                        <div class="col-md-6 text-md-end">
-                            <h3 class="text-warning mb-2">R$ {{ categoria.valor }}</h3>
-                            <p class="mb-1"><strong>{{ total_disponivel }}</strong> senhas disponíveis</p>
-                            <p class="mb-0"><strong>{{ total_vendidas }}</strong> senhas vendidas</p>
-                        </div>
-                    </div>
-                </div>
+  <div class="row">
+    <div class="col-12">
+      <!-- Informações da Vaquejada e Categoria -->
+      <div
+        class="card mb-4"
+        style="
+          background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+          color: white;
+        "
+      >
+        <div class="card-body">
+          <h2 class="mb-3">
+            <i class="fas fa-ticket-alt"></i> {{ vaquejada.nome }}
+          </h2>
+          <div class="row">
+            <div class="col-md-6">
+              <h4 class="text-warning mb-3">{{ categoria.nome }}</h4>
+              <p class="mb-2">
+                <i class="fas fa-calendar"></i> {{ vaquejada.dia|date:"d/m/Y" }}
+                às {{ vaquejada.hora|time:"H:i" }}
+              </p>
+              <p class="mb-2">
+                <i class="fas fa-map-marker-alt"></i> {{ vaquejada.local }}
+              </p>
             </div>
-
-            <!-- Informativo -->
-            <div class="alert alert-info">
-                <i class="fas fa-info-circle"></i> <strong>Como funciona:</strong>
-                <ul class="mb-0 mt-2">
-                    <li>Clique na <span style="background-color: #28a745; color: white; padding: 2px 8px; border-radius: 4px;">senha verde</span> que deseja comprar</li>
-                    <li>Senhas <span style="background-color: #dc3545; color: white; padding: 2px 8px; border-radius: 4px;">vermelhas</span> já estão ocupadas</li>
-                    <li>Após escolher, preencha seus dados e efetue o pagamento</li>
-                </ul>
+            <div class="col-md-6 text-md-end">
+              <h3 class="text-warning mb-2">R$ {{ categoria.valor }}</h3>
+              <p class="mb-1">
+                <strong>{{ total_disponivel }}</strong> senhas disponíveis
+              </p>
+              <p class="mb-0">
+                <strong>{{ total_vendidas }}</strong> senhas vendidas
+              </p>
             </div>
-
-            <!-- Legenda -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="row text-center">
-                        <div class="col-md-6 mb-3">
-                            <span class="badge bg-success p-3 me-2" style="font-size: 1.1rem;">123</span>
-                            <span>Senha Disponível</span>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <span class="badge bg-danger p-3 me-2" style="font-size: 1.1rem;">456</span>
-                            <span>Senha Ocupada</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mapa de Senhas -->
-            <div class="card">
-                <div class="card-header" style="background-color: #8B4513; color: white;">
-                    <h4 class="mb-0"><i class="fas fa-th"></i> MAPA DE SENHAS</h4>
-                </div>
-                <div class="card-body" style="background-color: #f8f9fa;">
-                    <div class="row g-2">
-                        {% for senha in mapa_senhas %}
-                        <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-1">
-                            {% if senha.disponivel %}
-                            <form method="post" action="{% url 'gerar_ingresso' categoria.id senha.numero %}" class="d-inline">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-success w-100 senha-btn" style="font-size: 1.1rem; font-weight: bold; padding: 12px 5px;">
-                                    {{ senha.numero }}
-                                </button>
-                            </form>
-                            {% else %}
-                            <button type="button" class="btn btn-danger w-100 senha-btn disabled" disabled style="font-size: 1.1rem; font-weight: bold; padding: 12px 5px; cursor: not-allowed;">
-                                {{ senha.numero }}
-                            </button>
-                            {% endif %}
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
-            <!-- Botão Voltar -->
-            <div class="mt-4 text-center">
-                <a href="{% url 'vaquejada_detail' vaquejada.id %}" class="btn btn-secondary btn-lg">
-                    <i class="fas fa-arrow-left"></i> Voltar para Vaquejada
-                </a>
-            </div>
+          </div>
         </div>
+      </div>
+
+      <!-- Informativo -->
+      <div class="alert alert-info">
+        <i class="fas fa-info-circle"></i> <strong>Como funciona:</strong>
+        <ul class="mb-0 mt-2">
+          <li>
+            Clique na
+            <span
+              style="
+                background-color: #28a745;
+                color: white;
+                padding: 2px 8px;
+                border-radius: 4px;
+              "
+              >senha verde</span
+            >
+            que deseja comprar
+          </li>
+          <li>
+            Senhas
+            <span
+              style="
+                background-color: #dc3545;
+                color: white;
+                padding: 2px 8px;
+                border-radius: 4px;
+              "
+              >vermelhas</span
+            >
+            já estão ocupadas
+          </li>
+          <li>Após escolher, preencha seus dados e efetue o pagamento</li>
+        </ul>
+      </div>
+
+      <!-- Legenda -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row text-center">
+            <div class="col-md-6 mb-3">
+              <span class="badge bg-success p-3 me-2" style="font-size: 1.1rem"
+                >123</span
+              >
+              <span>Senha Disponível</span>
+            </div>
+            <div class="col-md-6 mb-3">
+              <span class="badge bg-danger p-3 me-2" style="font-size: 1.1rem"
+                >456</span
+              >
+              <span>Senha Ocupada</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mapa de Senhas -->
+      <div class="card">
+        <div
+          class="card-header"
+          style="background-color: #8b4513; color: white"
+        >
+          <h4 class="mb-0"><i class="fas fa-th"></i> MAPA DE SENHAS</h4>
+        </div>
+        <div class="card-body" style="background-color: #f8f9fa">
+          <div class="row g-2">
+            {% for senha in mapa_senhas %}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-1">
+              {% if senha.disponivel %}
+              <form
+                method="post"
+                action="{% url 'gerar_ingresso' categoria.id senha.numero %}"
+                class="d-inline"
+              >
+                {% csrf_token %}
+                <button
+                  type="submit"
+                  class="btn btn-success w-100 senha-btn"
+                  style="
+                    font-size: 1.1rem;
+                    font-weight: bold;
+                    padding: 12px 5px;
+                  "
+                >
+                  {{ senha.numero }}
+                </button>
+              </form>
+              {% else %}
+              <button
+                type="button"
+                class="btn btn-danger w-100 senha-btn disabled"
+                disabled
+                style="
+                  font-size: 1.1rem;
+                  font-weight: bold;
+                  padding: 12px 5px;
+                  cursor: not-allowed;
+                "
+              >
+                {{ senha.numero }}
+              </button>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Botão Voltar -->
+      <div class="mt-4 text-center">
+        <a
+          href="{% url 'vaquejada_detail' vaquejada.id %}"
+          class="btn btn-secondary btn-lg"
+        >
+          <i class="fas fa-arrow-left"></i> Voltar para Vaquejada
+        </a>
+      </div>
     </div>
+  </div>
 </div>
 
 <style>
-    .senha-btn {
-        transition: all 0.3s ease;
-        border-radius: 8px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-        font-weight: 600;
-        letter-spacing: 0.5px;
-    }
-    
-    .senha-btn.btn-success:hover:not(:disabled) {
-        transform: scale(1.08) translateY(-2px);
-        box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
-        background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
-    }
-    
-    .senha-btn.btn-success:active:not(:disabled) {
-        transform: scale(0.96);
-    }
-    
-    .senha-btn.btn-danger:disabled {
-        opacity: 0.6;
-        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-    }
-    
-    .senha-btn:not(.disabled):hover {
-        transform: scale(1.1);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    
-    .btn-success {
-        background-color: #28a745;
-        border-color: #28a745;
-    }
-    
-    .btn-success:hover {
-        background-color: #218838;
-        border-color: #1e7e34;
-    }
-    
-    .btn-danger.disabled {
-        opacity: 0.6;
-    }
+  .senha-btn {
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .senha-btn.btn-success:hover:not(:disabled) {
+    transform: scale(1.08) translateY(-2px);
+    box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+  }
+
+  .senha-btn.btn-success:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+
+  .senha-btn.btn-danger:disabled {
+    opacity: 0.6;
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  }
+
+  .senha-btn:not(.disabled):hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+  }
+
+  .btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+  }
+
+  .btn-danger.disabled {
+    opacity: 0.6;
+  }
 </style>
 
 <script>
-    // Confirmação ao selecionar senha
-    document.querySelectorAll('form').forEach(form => {
-        form.addEventListener('submit', function(e) {
-            const senha = this.querySelector('button').textContent.trim();
-            if (!confirm(`Deseja realmente comprar a SENHA ${senha}?\n\nValor: R$ {{ categoria.valor }}`)) {
-                e.preventDefault();
-            }
-        });
+  // Confirmação ao selecionar senha
+  document.querySelectorAll("form").forEach((form) => {
+    form.addEventListener("submit", function (e) {
+      const senha = this.querySelector("button").textContent.trim();
+      if (
+        !confirm(
+          `Deseja realmente comprar a SENHA ${senha}?\n\nValor: R$ {{ categoria.valor }}`
+        )
+      ) {
+        e.preventDefault();
+      }
     });
+  });
 </script>
 {% endblock %}

@@ -21,7 +21,10 @@ Brasil{% endblock %} {% block content %}
         </div>
         <div class="card-body">
           <p class="mb-2">
-            <strong>Senha:</strong> <span class="badge bg-success" style="font-size: 1.1rem;">{{ ingresso.numero_senha }}</span>
+            <strong>Senha:</strong>
+            <span class="badge bg-success" style="font-size: 1.1rem"
+              >{{ ingresso.numero_senha }}</span
+            >
           </p>
           <p class="mb-2">
             <strong>Categoria:</strong> {{ ingresso.categoria.nome }}
